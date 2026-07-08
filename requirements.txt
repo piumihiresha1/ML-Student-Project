@@ -2,7 +2,6 @@ pandas
 numpy
 matplotlib
 seaborn
-pickle
 sklearn.model_selection
 sklearn.preprocessing
 sklearn.linear_model
