@@ -2,9 +2,7 @@ pandas
 numpy
 matplotlib
 seaborn
-sklearn.model_selection
-sklearn.preprocessing
-sklearn.linear_model
-sklearn.ensemble
+sklearn
 xgboost
-sklearn.metrics
+scikit-learn
+streamlit
