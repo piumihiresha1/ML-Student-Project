@@ -2,7 +2,6 @@ pandas
 numpy
 matplotlib
 seaborn
-sklearn
 xgboost
 scikit-learn
 streamlit
