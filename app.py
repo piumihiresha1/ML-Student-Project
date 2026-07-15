@@ -64,13 +64,23 @@ if st.button("🔮 Predict Churn Risk", use_container_width=True):
     # 2. Encode the categorical text into numbers using your saved encoder
     # Note: If you used a single LabelEncoder in a loop in your notebook, 
     # it might only remember the last column. If this throws an error, you can use manual mapping.
-    categorical_cols = ['CONTRACT_TYPE', 'PAYMENT_METHOD', 'DTV_SACHET_WAIVER_ACTIVE']
-    try:
-        for col in categorical_cols:
+    #categorical_cols = ['CONTRACT_TYPE', 'PAYMENT_METHOD', 'DTV_SACHET_WAIVER_ACTIVE']
+    #try:
+     #   for col in categorical_cols:
             # We fit_transform here as a fallback in case the encoder wasn't saved as a dictionary
-            input_data[col] = encoder.fit_transform(input_data[col]) 
-    except Exception as e:
-        st.error(f"Encoding error: {e}")
+          #  input_data[col] = encoder.fit_transform(input_data[col]) 
+    #except Exception as e:
+       # st.error(f"Encoding error: {e}")
+
+    # 2. Encode the categorical text into numbers using explicit manual mapping
+    # This matches exactly how scikit-learn's LabelEncoder assigned numbers during training (alphabetically)
+    contract_mapping = {"Postpaid": 0, "Prepaid": 1}
+    payment_mapping = {"Bank Transfer": 0, "Cash": 1, "Cheque": 2, "Credit Card": 3}
+    waiver_mapping = {"No": 0, "Yes": 1}
+
+    input_data['CONTRACT_TYPE'] = input_data['CONTRACT_TYPE'].map(contract_mapping)
+    input_data['PAYMENT_METHOD'] = input_data['PAYMENT_METHOD'].map(payment_mapping)
+    input_data['DTV_SACHET_WAIVER_ACTIVE'] = input_data['DTV_SACHET_WAIVER_ACTIVE'].map(waiver_mapping)
 
     # 3. Scale the data using the saved StandardScaler
     # Ensure column order matches the X_train dataset exactly
