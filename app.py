@@ -4,7 +4,7 @@ import numpy as np
 import pickle
 
 # ******************************************
-# 1. Load the Saved Model Assets (The Logistic Regression Model, Standard Scaler, and Label Encoder
+# 1. Load the Saved Model Assets (The Logistic Regression Model, Standard Scaler, and Label Encoder)
 # ******************************************
 
 @st.cache_resource
@@ -38,7 +38,7 @@ with col2:
     # Using the exact categories found in your dataset
     contract_type = st.selectbox("Contract Type", ["Prepaid", "Postpaid"])
     payment_method = st.selectbox("Payment Method", ["Credit Card", "Cash", "Bank Transfer", "Cheque"])
-    dtv_sachet_waiver_active = st.selectbox("DTV Sachet Waiver Active", ["Yes", "No"])
+    waiver_active = st.selectbox("Waiver Active", ["Yes", "No"])
 
 st.divider()
 
@@ -54,7 +54,7 @@ if st.button("🔮 Predict Churn Risk", use_container_width=True):
         'TOTAL_CHARGES': [total_charges],
         'CONTRACT_TYPE': [contract_type],
         'PAYMENT_METHOD': [payment_method],
-        'DTV_SACHET_WAIVER_ACTIVE': [dtv_sachet_waiver_active],
+        'DTV_SACHET_WAIVER_ACTIVE': [waiver_active],
         'SUPPORT_CALLS': [support_calls]
     })
     
@@ -65,7 +65,7 @@ if st.button("🔮 Predict Churn Risk", use_container_width=True):
 
     input_data['CONTRACT_TYPE'] = input_data['CONTRACT_TYPE'].map(contract_mapping)
     input_data['PAYMENT_METHOD'] = input_data['PAYMENT_METHOD'].map(payment_mapping)
-    input_data['DTV_SACHET_WAIVER_ACTIVE'] = input_data['DTV_SACHET_WAIVER_ACTIVE'].map(waiver_mapping)
+    input_data['WAIVER_ACTIVE'] = input_data['WAIVER_ACTIVE'].map(waiver_mapping)
 
     # c. Scale the data using the saved StandardScaler
     input_scaled = scaler.transform(input_data)
