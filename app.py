@@ -28,10 +28,10 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.subheader("Numeric Features")
-    tenure = st.number_input("Tenure (Months)", min_value=0.0, value=12.0, step=1.0)
-    monthly_charges = st.number_input("Monthly Charges", min_value=0.0, value=1500.0)
-    total_charges = st.number_input("Total Charges", min_value=0.0, value=18000.0)
-    support_calls = st.number_input("Support Calls Made", min_value=0.0, value=1.0, step=1.0)
+    tenure = st.number_input("Tenure (Months)", min_value=0.0, value=0.0, step=1.0)
+    monthly_charges = st.number_input("Monthly Charges", min_value=0.0, value=0.0)
+    total_charges = st.number_input("Total Charges", min_value=0.0, value=0.0)
+    support_calls = st.number_input("Support Calls Made", min_value=0.0, value=0.0, step=1.0)
 
 with col2:
     st.subheader("Categorical Features")
