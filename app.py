@@ -52,19 +52,19 @@ if st.button("🔮 Predict Churn Risk", use_container_width=True):
     
     # 1. Gather all inputs into a single-row DataFrame (must match the exact column names/order used in training)
     input_data = pd.DataFrame({
-        'tenure': [tenure],
-        'monthly_charges': [monthly_charges],
-        'total_charges': [total_charges],
-        'contract_type': [contract_type],
-        'payment_method': [payment_method],
-        'dtv_sachet_waiver_active': [dtv_sachet_waiver_active],
-        'support_calls': [support_calls]
+        'TENURE': [tenure],
+        'MONTHLY_CHARGES': [monthly_charges],
+        'TOTAL_CHARGES': [total_charges],
+        'CONTRACT_TYPE': [contract_type],
+        'PAYMENT_METHOD': [payment_method],
+        'DTV_SACHET_WAIVER_ACTIVE': [dtv_sachet_waiver_active],
+        'SUPPORT_CALLS': [support_calls]
     })
     
     # 2. Encode the categorical text into numbers using your saved encoder
     # Note: If you used a single LabelEncoder in a loop in your notebook, 
     # it might only remember the last column. If this throws an error, you can use manual mapping.
-    categorical_cols = ['contract_type', 'payment_method', 'dtv_sachet_waiver_active']
+    categorical_cols = ['CONTRACT_TYPE', 'PAYMENT_METHOD', 'DTV_SACHET_WAIVER_ACTIVE']
     try:
         for col in categorical_cols:
             # We fit_transform here as a fallback in case the encoder wasn't saved as a dictionary
