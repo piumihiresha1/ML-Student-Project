@@ -3,30 +3,27 @@ import pandas as pd
 import numpy as np
 import pickle
 
-# ==========================================
-# 1. Load the Saved Model Assets
-# ==========================================
-# @st.cache_resource ensures the model only loads once and stays in memory
+# ******************************************
+# 1. Load the Saved Model Assets (The Logistic Regression Model, Standard Scaler, and Label Encoder
+# ******************************************
+
 @st.cache_resource
 def load_assets():
     with open('best_model.pkl', 'rb') as file:
         assets = pickle.load(file)
     return assets['model'], assets['scaler'], assets['encoder']
 
-# Load the logistic regression model, standard scaler, and label encoder
 model, scaler, encoder = load_assets()
 
-# ==========================================
+# ******************************************
 # 2. Build the Streamlit User Interface
-# ==========================================
+# ******************************************
 st.set_page_config(page_title="Churn Predictor", page_icon="📉", layout="centered")
 
 st.title("📉 Customer Churn Prediction App")
 st.write("Enter the customer's billing and account details below to predict if they are at risk of churning.")
-
 st.divider()
 
-# Create two columns for a cleaner layout
 col1, col2 = st.columns(2)
 
 with col1:
@@ -45,12 +42,12 @@ with col2:
 
 st.divider()
 
-# ==========================================
+# ******************************************
 # 3. Prediction Logic
-# ==========================================
+# ******************************************
 if st.button("🔮 Predict Churn Risk", use_container_width=True):
     
-    # 1. Gather all inputs into a single-row DataFrame (must match the exact column names/order used in training)
+    # a. Gather all inputs into a single-row DataFrame
     input_data = pd.DataFrame({
         'TENURE': [tenure],
         'MONTHLY_CHARGES': [monthly_charges],
@@ -61,19 +58,7 @@ if st.button("🔮 Predict Churn Risk", use_container_width=True):
         'SUPPORT_CALLS': [support_calls]
     })
     
-    # 2. Encode the categorical text into numbers using your saved encoder
-    # Note: If you used a single LabelEncoder in a loop in your notebook, 
-    # it might only remember the last column. If this throws an error, you can use manual mapping.
-    #categorical_cols = ['CONTRACT_TYPE', 'PAYMENT_METHOD', 'DTV_SACHET_WAIVER_ACTIVE']
-    #try:
-     #   for col in categorical_cols:
-            # We fit_transform here as a fallback in case the encoder wasn't saved as a dictionary
-          #  input_data[col] = encoder.fit_transform(input_data[col]) 
-    #except Exception as e:
-       # st.error(f"Encoding error: {e}")
-
-    # 2. Encode the categorical text into numbers using explicit manual mapping
-    # This matches exactly how scikit-learn's LabelEncoder assigned numbers during training (alphabetically)
+    # b. Encode the categorical text into numbers using your saved encoder
     contract_mapping = {"Postpaid": 0, "Prepaid": 1}
     payment_mapping = {"Bank Transfer": 0, "Cash": 1, "Cheque": 2, "Credit Card": 3}
     waiver_mapping = {"No": 0, "Yes": 1}
@@ -82,17 +67,14 @@ if st.button("🔮 Predict Churn Risk", use_container_width=True):
     input_data['PAYMENT_METHOD'] = input_data['PAYMENT_METHOD'].map(payment_mapping)
     input_data['DTV_SACHET_WAIVER_ACTIVE'] = input_data['DTV_SACHET_WAIVER_ACTIVE'].map(waiver_mapping)
 
-    # 3. Scale the data using the saved StandardScaler
-    # Ensure column order matches the X_train dataset exactly
+    # c. Scale the data using the saved StandardScaler
     input_scaled = scaler.transform(input_data)
     
-    # 4. Make the prediction
+    # d. Make the prediction
     prediction = model.predict(input_scaled)[0]
-    
-    # Use predict_proba to get the confidence percentage (useful for business context)
     probability = model.predict_proba(input_scaled)[0][1] 
     
-    # 5. Display beautiful results
+    # e. Display Results
     st.subheader("Prediction Results:")
     if prediction == 1:
         st.error(f"⚠️ **HIGH RISK:** This customer is likely to CHURN.")
