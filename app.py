@@ -54,7 +54,7 @@ if st.button("🔮 Predict Churn Risk", use_container_width=True):
         'TOTAL_CHARGES': [total_charges],
         'CONTRACT_TYPE': [contract_type],
         'PAYMENT_METHOD': [payment_method],
-        'DTV_SACHET_WAIVER_ACTIVE': [waiver_active],
+        'WAIVER_ACTIVE': [waiver_active],
         'SUPPORT_CALLS': [support_calls]
     })
     
